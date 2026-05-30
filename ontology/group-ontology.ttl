@@ -1,0 +1,146 @@
+@prefix g15:     <https://hcis.io/ontology/aicapstone/2026/group15/> .
+@prefix cap:     <https://hcis.io/ontology/aicapstone/2026/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann:    <http://purl.org/vocab/vann/> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+# Group Ontology Metadata
+
+<https://hcis.io/ontology/aicapstone/2026/group15>
+    a owl:Ontology ;
+    owl:imports <https://hcis.io/ontology/aicapstone/2026> ;
+    rdfs:label "AI Capstone 2026 Group 15 Ontology"@en ;
+    rdfs:comment
+        "The Group 15 ontology for grounding baseline environment objects and the toy-block-collection task."@en ;
+    dcterms:title "AI Capstone 2026 Group 15 Toy Block Collection Ontology"@en ;
+    dcterms:description
+        "This ontology defines Group 15 environment instances for the three baseline course tasks and identifies toy blocks and a basket for the selected toy-block-collection task."@en ;
+    dcterms:creator g15:group15 ;
+    dcterms:created "2026-05-30"^^xsd:date ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    vann:preferredNamespacePrefix "g15" ;
+    vann:preferredNamespaceUri "https://hcis.io/ontology/aicapstone/2026/group15/" .
+
+g15:group15
+    a foaf:Group ;
+    rdfs:label "AI Capstone 2026 Group 15"@en ;
+    rdfs:comment "The student group that authors this ontology."@en ;
+    foaf:member
+        g15:memberWuYuTeng,
+        g15:memberLuBoHan,
+        g15:memberZhangJinRui,
+        g15:memberWangWeiKai,
+        g15:memberYeZheRui,
+        g15:memberMaChenYu .
+
+g15:memberWuYuTeng
+    a foaf:Person ;
+    foaf:name "吳宇藤"@zh .
+
+g15:memberLuBoHan
+    a foaf:Person ;
+    foaf:name "呂柏翰"@zh .
+
+g15:memberZhangJinRui
+    a foaf:Person ;
+    foaf:name "張晉睿"@zh .
+
+g15:memberWangWeiKai
+    a foaf:Person ;
+    foaf:name "王韋凱"@zh .
+
+g15:memberYeZheRui
+    a foaf:Person ;
+    foaf:name "葉哲睿"@zh .
+
+g15:memberMaChenYu
+    a foaf:Person ;
+    foaf:name "馬晨瑜"@zh .
+
+# Selected Task
+
+g15:toyBlockCollectionTask
+    a cap:ManipulationTask ;
+    rdfs:label "Group 15 toy block collection task"@en ;
+    rdfs:comment
+        "The selected Group 15 task in which toy blocks are collected into a basket."@en ;
+    cap:hasTargetObject g15:block01, g15:block02, g15:block03 ;
+    cap:hasReferenceObject g15:basket01 .
+
+# Baseline Cup-Stacking Instances
+
+g15:blueCup01
+    a cap:Cup ;
+    rdfs:label "blue cup 01"@en ;
+    rdfs:comment "The blue cup instance for the baseline cup-stacking task."@en ;
+    cap:hasColor "blue" ;
+    cap:hasObjectLabel "blue_cup" ;
+    cap:hasTaskRole cap:TargetObject .
+
+g15:pinkCup01
+    a cap:Cup ;
+    rdfs:label "pink cup 01"@en ;
+    rdfs:comment "The pink cup instance for the baseline cup-stacking task."@en ;
+    cap:hasColor "pink" ;
+    cap:hasObjectLabel "pink_cup" ;
+    cap:hasTaskRole cap:TargetObject .
+
+# Baseline Cutlery-Arrangement Instances
+
+g15:knife01
+    a cap:Knife ;
+    rdfs:label "knife 01"@en ;
+    rdfs:comment "The knife instance for the baseline cutlery-arrangement task."@en ;
+    cap:hasObjectLabel "knife" ;
+    cap:hasTaskRole cap:TargetObject .
+
+g15:fork01
+    a cap:Fork ;
+    rdfs:label "fork 01"@en ;
+    rdfs:comment "The fork instance for the baseline cutlery-arrangement task."@en ;
+    cap:hasObjectLabel "fork" ;
+    cap:hasTaskRole cap:TargetObject .
+
+g15:plate01
+    a cap:Plate ;
+    rdfs:label "plate 01"@en ;
+    rdfs:comment "The plate reference instance for the baseline cutlery-arrangement task."@en ;
+    cap:hasObjectLabel "plate" ;
+    cap:hasTaskRole cap:ReferenceObject .
+
+# Selected Toy-Block-Collection Instances
+
+g15:block01
+    a cap:ToyBlock ;
+    rdfs:label "toy block 01"@en ;
+    rdfs:comment "The blue toy block collected into the basket in the selected Group 15 task."@en ;
+    cap:hasColor "blue" ;
+    cap:hasObjectLabel "toy_block_01" ;
+    cap:hasTaskRole cap:CollectableObject .
+
+g15:block02
+    a cap:ToyBlock ;
+    rdfs:label "toy block 02"@en ;
+    rdfs:comment "The green toy block collected into the basket in the selected Group 15 task."@en ;
+    cap:hasColor "green" ;
+    cap:hasObjectLabel "toy_block_02" ;
+    cap:hasTaskRole cap:CollectableObject .
+
+g15:block03
+    a cap:ToyBlock ;
+    rdfs:label "toy block 03"@en ;
+    rdfs:comment "The red toy block collected into the basket in the selected Group 15 task."@en ;
+    cap:hasColor "red" ;
+    cap:hasObjectLabel "toy_block_03" ;
+    cap:hasTaskRole cap:CollectableObject .
+
+g15:basket01
+    a cap:Basket ;
+    rdfs:label "basket 01"@en ;
+    rdfs:comment "The white basket that receives toy blocks in the selected Group 15 task."@en ;
+    cap:hasColor "white" ;
+    cap:hasObjectLabel "basket" ;
+    cap:hasTaskRole cap:ContainerTarget .
