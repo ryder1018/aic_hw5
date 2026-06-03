@@ -1,0 +1,22 @@
+PREFIX cap: <https://hcis.io/ontology/aicapstone/2026/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?obj ?type ?label ?role
+WHERE {
+    ?obj a ?type .
+    
+    # 拆解成傳統的 OR (||) 寫法，保證 Protégé 絕對看得懂
+    FILTER (
+        ?type = cap:Cup || 
+        ?type = cap:Knife || 
+        ?type = cap:Fork || 
+        ?type = cap:Plate || 
+        ?type = cap:ToyBlock || 
+        ?type = cap:Basket
+    )
+    
+    OPTIONAL { ?obj rdfs:label ?label . }
+    OPTIONAL { ?obj cap:hasTaskRole ?role . }
+}
+ORDER BY ?type ?obj

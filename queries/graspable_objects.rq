@@ -1,0 +1,14 @@
+PREFIX cap: <https://hcis.io/ontology/aicapstone/2026/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?obj ?label ?role
+WHERE {
+    # 核心：查詢所有被推論分類到 GraspableObject 的實例
+    ?obj a cap:GraspableObject .
+    
+    # 選用：撈出物件的可讀標籤與在任務中的角色
+    OPTIONAL { ?obj rdfs:label ?label . }
+    OPTIONAL { ?obj cap:hasTaskRole ?role . }
+}
+ORDER BY ?obj

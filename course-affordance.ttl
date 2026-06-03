@@ -267,7 +267,6 @@ cap:ToyBlock
         owl:someValuesFrom cap:GraspingAffordance
     ] .
 
-    a owl:Class ;
 cap:Basket
     a owl:Class ;
     rdfs:subClassOf cap:PhysicalObject ;
@@ -278,7 +277,27 @@ cap:Basket
         a owl:Restriction ;
         owl:onProperty cap:hasAffordance ;
         owl:someValuesFrom cap:ContainmentAffordance
-    ] ;
+    ] .
+
+cap:hasApproximateWidth
+    a owl:DatatypeProperty ;
+    rdfs:domain cap:PhysicalObject ;
     rdfs:label "has approximate width"@en ;
     rdfs:comment
         "Records an approximate object width, which may be useful for checking whether an object fits within a gripper capability."@en .
+
+cap:GraspableObject
+    a owl:Class ;
+    rdfs:label "graspable object"@en ;
+    rdfs:comment "An object inferred to be graspable because it is a physical object with a grasping affordance."@en ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            cap:PhysicalObject
+            [
+                a owl:Restriction ;
+                owl:onProperty cap:hasAffordance ;
+                owl:someValuesFrom cap:GraspingAffordance
+            ]
+        )
+    ] .

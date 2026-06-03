@@ -1,0 +1,9 @@
+cap:group15/basket01	cap:Basket	basket 01@en	cap:group15/containerTargetRole	
+cap:group15/blueCup01	cap:Cup	blue cup 01@en	cap:group15/targetObjectRole	
+cap:group15/pinkCup01	cap:Cup	pink cup 01@en	cap:group15/targetObjectRole	
+cap:group15/fork01	cap:Fork	fork 01@en	cap:group15/targetObjectRole	
+cap:group15/knife01	cap:Knife	knife 01@en	cap:group15/targetObjectRole	
+cap:group15/plate01	cap:Plate	plate 01@en	cap:group15/referenceObjectRole	
+cap:group15/block01	cap:ToyBlock	toy block 01@en	cap:group15/collectableObjectRole	
+cap:group15/block02	cap:ToyBlock	toy block 02@en	cap:group15/collectableObjectRole	
+cap:group15/block03	cap:ToyBlock	toy block 03@en	cap:group15/collectableObjectRole
