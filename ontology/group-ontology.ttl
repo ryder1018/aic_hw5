@@ -2,22 +2,26 @@
 @prefix cap:     <https://hcis.io/ontology/aicapstone/2026/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix vann:    <http://purl.org/vocab/vann/> .
 @prefix foaf:    <http://xmlns.com/foaf/0.1/> .
 
+# ─────────────────────────────────────────
 # Group Ontology Metadata
+# ─────────────────────────────────────────
 
 <https://hcis.io/ontology/aicapstone/2026/group15>
     a owl:Ontology ;
     owl:imports <https://hcis.io/ontology/aicapstone/2026> ;
     rdfs:label "AI Capstone 2026 Group 15 Ontology"@en ;
     rdfs:comment
-        "The Group 15 ontology for grounding baseline environment objects and the toy-block-collection task."@en ;
+        "The Group 15 ontology for grounding baseline environment objects across all three course tasks: cup stacking, cutlery arrangement, and toy block collection."@en ;
     dcterms:title "AI Capstone 2026 Group 15 Toy Block Collection Ontology"@en ;
     dcterms:description
-        "This ontology defines Group 15 environment instances for the three baseline course tasks and identifies toy blocks and a basket for the selected toy-block-collection task."@en ;
+        "This ontology defines Group 15 environment instances for the three baseline course tasks and models their object types, task roles, and manipulation affordances to support OWL-based graspability inference."@en ;
     dcterms:creator g15:group15 ;
     dcterms:created "2026-05-30"^^xsd:date ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
@@ -36,111 +40,262 @@ g15:group15
         g15:memberYeZheRui,
         g15:memberMaChenYu .
 
-g15:memberWuYuTeng
-    a foaf:Person ;
-    foaf:name "吳宇藤"@zh .
+g15:memberWuYuTeng    a foaf:Person ; foaf:name "吳宇藤"@zh .
+g15:memberLuBoHan     a foaf:Person ; foaf:name "呂柏翰"@zh .
+g15:memberZhangJinRui a foaf:Person ; foaf:name "張晉睿"@zh .
+g15:memberWangWeiKai  a foaf:Person ; foaf:name "王韋凱"@zh .
+g15:memberYeZheRui    a foaf:Person ; foaf:name "葉哲睿"@zh .
+g15:memberMaChenYu    a foaf:Person ; foaf:name "馬晨瑜"@zh .
 
-g15:memberLuBoHan
-    a foaf:Person ;
-    foaf:name "呂柏翰"@zh .
+# ─────────────────────────────────────────
+# Task Role Individuals
+#
+# cap:TargetObject, cap:ReferenceObject, cap:ContainerTarget, and
+# cap:CollectableObject are declared as owl:Class in course-affordance.ttl.
+# To use them as values of the cap:hasTaskRole object property
+# (whose range is cap:TaskRole), we declare one individual per role
+# under the g15: namespace.  Each individual is typed as its
+# corresponding role class, making the hasTaskRole assertion well-typed.
+# ─────────────────────────────────────────
 
-g15:memberZhangJinRui
-    a foaf:Person ;
-    foaf:name "張晉睿"@zh .
+g15:targetObjectRole
+    a cap:TargetObject ;
+    rdfs:label "target object role"@en ;
+    rdfs:comment
+        "A task role individual representing the TargetObject role. Assigned to objects that are directly grasped and repositioned by the robot."@en ;
+    skos:definition
+        "Instances of this role are the primary manipulation targets in their respective tasks: the robot selects, grasps, and places them."@en .
 
-g15:memberWangWeiKai
-    a foaf:Person ;
-    foaf:name "王韋凱"@zh .
+g15:referenceObjectRole
+    a cap:ReferenceObject ;
+    rdfs:label "reference object role"@en ;
+    rdfs:comment
+        "A task role individual representing the ReferenceObject role. Assigned to objects that anchor the spatial layout without being grasped."@en ;
+    skos:definition
+        "Instances of this role provide a fixed pose frame used to compute placement targets for other objects; the robot reads their pose but does not grasp them."@en .
 
-g15:memberYeZheRui
-    a foaf:Person ;
-    foaf:name "葉哲睿"@zh .
+g15:containerTargetRole
+    a cap:ContainerTarget ;
+    rdfs:label "container target role"@en ;
+    rdfs:comment
+        "A task role individual representing the ContainerTarget role. Assigned to objects that receive and hold other objects."@en ;
+    skos:definition
+        "Instances of this role are the destination receptacles in collection tasks; the robot deposits grasped objects into them."@en .
 
-g15:memberMaChenYu
-    a foaf:Person ;
-    foaf:name "馬晨瑜"@zh .
+g15:collectableObjectRole
+    a cap:CollectableObject ;
+    rdfs:label "collectable object role"@en ;
+    rdfs:comment
+        "A task role individual representing the CollectableObject role. Assigned to objects that must be collected into a container target."@en ;
+    skos:definition
+        "Instances of this role are picked up individually and deposited into the container target until the collection task is complete."@en .
 
-# Selected Task
+# ─────────────────────────────────────────
+# Affordance Individuals
+#
+# One individual per affordance type.  Shared across all instances
+# that require that affordance.  Typed as the relevant cap:Affordance
+# subclass so that the OWL reasoner can match the
+# cap:GraspableObject equivalentClass restriction.
+# ─────────────────────────────────────────
+
+g15:graspingAffordance
+    a cap:GraspingAffordance ;
+    rdfs:label "grasping affordance (Group 15)"@en ;
+    rdfs:comment
+        "Shared grasping affordance individual for all Group 15 objects that can be grasped by the robot gripper."@en ;
+    skos:definition
+        "Represents the physical property that allows the robot end effector to form a stable grasp on the object, enabling it to lift and reposition it."@en .
+
+g15:stackingAffordance
+    a cap:StackabilityAffordance ;
+    rdfs:label "stackability affordance (Group 15)"@en ;
+    rdfs:comment
+        "Stackability affordance individual for cup instances that can be nested or stacked vertically."@en ;
+    skos:definition
+        "Represents the geometric property of cup objects that permits one cup to be placed concentrically on top of or inside another."@en .
+
+g15:supportAffordance
+    a cap:SupportAffordance ;
+    rdfs:label "support affordance (Group 15)"@en ;
+    rdfs:comment
+        "Support affordance individual for the plate, which provides a flat surface as a spatial reference for cutlery placement."@en ;
+    skos:definition
+        "Represents the stable flat surface of the plate that anchors the cutlery arrangement; other objects are placed relative to it."@en .
+
+g15:containmentAffordance
+    a cap:ContainmentAffordance ;
+    rdfs:label "containment affordance (Group 15)"@en ;
+    rdfs:comment
+        "Containment affordance individual for the basket, which receives and holds toy blocks deposited by the robot."@en ;
+    skos:definition
+        "Represents the enclosed interior volume of the basket that retains deposited toy blocks throughout the collection task."@en .
+
+# ─────────────────────────────────────────
+# Task Individual
+# ─────────────────────────────────────────
 
 g15:toyBlockCollectionTask
     a cap:ManipulationTask ;
     rdfs:label "Group 15 toy block collection task"@en ;
     rdfs:comment
-        "The selected Group 15 task in which toy blocks are collected into a basket."@en ;
-    cap:hasTargetObject g15:block01, g15:block02, g15:block03 ;
+        "The primary Group 15 task: the robot identifies, grasps, and deposits toy blocks into the basket."@en ;
+    skos:definition
+        "A manipulation task in which the robot iteratively grasps each collectable toy block and deposits it into the basket container target until the workspace is cleared."@en ;
+    cap:hasTargetObject  g15:block01, g15:block02, g15:block03 ;
     cap:hasReferenceObject g15:basket01 .
 
-# Baseline Cup-Stacking Instances
+# ─────────────────────────────────────────
+# Cup-Stacking Instances
+#
+# Object type  : cap:Cup
+# Task role    : g15:targetObjectRole (cap:TargetObject)
+# Affordances  : GraspingAffordance — enables gripper manipulation
+#                StackabilityAffordance — enables nesting/stacking
+# Inference    : Both cups satisfy the cap:GraspableObject definition
+#                because they are PhysicalObjects with a GraspingAffordance.
+# ─────────────────────────────────────────
 
 g15:blueCup01
     a cap:Cup ;
     rdfs:label "blue cup 01"@en ;
-    rdfs:comment "The blue cup instance for the baseline cup-stacking task."@en ;
-    cap:hasColor "blue" ;
-    cap:hasObjectLabel "blue_cup" ;
-    cap:hasTaskRole cap:TargetObject .
+    rdfs:comment
+        "The blue cup instance for the cup-stacking task. It is a direct manipulation target: the robot grasps it and stacks it."@en ;
+    skos:definition
+        "A blue-coloured cup that serves as a stacking target. The robot grasps it by its rim or body and places it concentrically onto or inside the pink cup."@en ;
+    cap:hasColor        "blue" ;
+    cap:hasObjectLabel  "blue_cup" ;
+    cap:hasPoseFrame    "world/object_blue_cup" ;
+    cap:hasTaskRole     g15:targetObjectRole ;
+    cap:hasAffordance   g15:graspingAffordance ;
+    cap:hasAffordance   g15:stackingAffordance .
 
 g15:pinkCup01
     a cap:Cup ;
     rdfs:label "pink cup 01"@en ;
-    rdfs:comment "The pink cup instance for the baseline cup-stacking task."@en ;
-    cap:hasColor "pink" ;
-    cap:hasObjectLabel "pink_cup" ;
-    cap:hasTaskRole cap:TargetObject .
+    rdfs:comment
+        "The pink cup instance for the cup-stacking task. It is a direct manipulation target: the robot grasps it and stacks it."@en ;
+    skos:definition
+        "A pink-coloured cup that serves as a stacking target. The robot grasps it by its rim or body and places it concentrically onto or inside the blue cup."@en ;
+    cap:hasColor        "pink" ;
+    cap:hasObjectLabel  "pink_cup" ;
+    cap:hasPoseFrame    "world/object_pink_cup" ;
+    cap:hasTaskRole     g15:targetObjectRole ;
+    cap:hasAffordance   g15:graspingAffordance ;
+    cap:hasAffordance   g15:stackingAffordance .
 
-# Baseline Cutlery-Arrangement Instances
+# ─────────────────────────────────────────
+# Cutlery-Arrangement Instances
+#
+# Object types : cap:Knife, cap:Fork, cap:Plate
+# Task roles   : knife + fork → g15:targetObjectRole (TargetObject)
+#                plate        → g15:referenceObjectRole (ReferenceObject)
+# Affordances  : knife + fork → GraspingAffordance only
+#                plate        → SupportAffordance only
+# Inference    : knife and fork are inferred as cap:GraspableObject;
+#                plate is NOT — it has no GraspingAffordance.
+# ─────────────────────────────────────────
 
 g15:knife01
     a cap:Knife ;
     rdfs:label "knife 01"@en ;
-    rdfs:comment "The knife instance for the baseline cutlery-arrangement task."@en ;
-    cap:hasObjectLabel "knife" ;
-    cap:hasTaskRole cap:TargetObject .
+    rdfs:comment
+        "The knife instance for the cutlery-arrangement task. It is a direct manipulation target: the robot grasps it and places it to the right of the plate."@en ;
+    skos:definition
+        "A kitchen knife that must be grasped by the handle and positioned at the designated location to the right of the plate."@en ;
+    cap:hasObjectLabel  "knife" ;
+    cap:hasPoseFrame    "world/object_knife" ;
+    cap:hasTaskRole     g15:targetObjectRole ;
+    cap:hasAffordance   g15:graspingAffordance .
 
 g15:fork01
     a cap:Fork ;
     rdfs:label "fork 01"@en ;
-    rdfs:comment "The fork instance for the baseline cutlery-arrangement task."@en ;
-    cap:hasObjectLabel "fork" ;
-    cap:hasTaskRole cap:TargetObject .
+    rdfs:comment
+        "The fork instance for the cutlery-arrangement task. It is a direct manipulation target: the robot grasps it and places it to the left of the plate."@en ;
+    skos:definition
+        "A kitchen fork that must be grasped by the handle and positioned at the designated location to the left of the plate."@en ;
+    cap:hasObjectLabel  "fork" ;
+    cap:hasPoseFrame    "world/object_fork" ;
+    cap:hasTaskRole     g15:targetObjectRole ;
+    cap:hasAffordance   g15:graspingAffordance .
 
 g15:plate01
     a cap:Plate ;
     rdfs:label "plate 01"@en ;
-    rdfs:comment "The plate reference instance for the baseline cutlery-arrangement task."@en ;
-    cap:hasObjectLabel "plate" ;
-    cap:hasTaskRole cap:ReferenceObject .
+    rdfs:comment
+        "The plate instance for the cutlery-arrangement task. It is not grasped; it acts as the fixed spatial reference around which knife and fork are arranged."@en ;
+    skos:definition
+        "A round plate whose pose provides the coordinate origin for computing the target placement positions of the knife and fork."@en ;
+    skos:scopeNote
+        "Plate is modelled with SupportAffordance only, not GraspingAffordance, because it is a reference anchor in this task rather than a manipulation target. It is therefore not inferred as cap:GraspableObject."@en ;
+    cap:hasObjectLabel  "plate" ;
+    cap:hasPoseFrame    "world/object_plate" ;
+    cap:hasTaskRole     g15:referenceObjectRole ;
+    cap:hasAffordance   g15:supportAffordance .
 
-# Selected Toy-Block-Collection Instances
+# ─────────────────────────────────────────
+# Toy-Block-Collection Instances
+#
+# Object types : cap:ToyBlock, cap:Basket
+# Task roles   : blocks → g15:collectableObjectRole (CollectableObject)
+#                basket → g15:containerTargetRole   (ContainerTarget)
+# Affordances  : blocks → GraspingAffordance only
+#                basket → ContainmentAffordance only
+# Inference    : blocks are inferred as cap:GraspableObject;
+#                basket is NOT — it has no GraspingAffordance.
+# ─────────────────────────────────────────
 
 g15:block01
     a cap:ToyBlock ;
     rdfs:label "toy block 01"@en ;
-    rdfs:comment "The blue toy block collected into the basket in the selected Group 15 task."@en ;
-    cap:hasColor "blue" ;
-    cap:hasObjectLabel "toy_block_01" ;
-    cap:hasTaskRole cap:CollectableObject .
+    rdfs:comment
+        "A blue toy block to be collected into the basket. It is a direct grasp target in the Group 15 task."@en ;
+    skos:definition
+        "A small blue-coloured cubic toy block. The robot grasps its top face, lifts it, and deposits it into the basket."@en ;
+    cap:hasColor        "blue" ;
+    cap:hasObjectLabel  "toy_block_01" ;
+    cap:hasPoseFrame    "world/object_toy_block_01" ;
+    cap:hasTaskRole     g15:collectableObjectRole ;
+    cap:hasAffordance   g15:graspingAffordance .
 
 g15:block02
     a cap:ToyBlock ;
     rdfs:label "toy block 02"@en ;
-    rdfs:comment "The green toy block collected into the basket in the selected Group 15 task."@en ;
-    cap:hasColor "green" ;
-    cap:hasObjectLabel "toy_block_02" ;
-    cap:hasTaskRole cap:CollectableObject .
+    rdfs:comment
+        "A green toy block to be collected into the basket. It is a direct grasp target in the Group 15 task."@en ;
+    skos:definition
+        "A small green-coloured cubic toy block. The robot grasps its top face, lifts it, and deposits it into the basket."@en ;
+    cap:hasColor        "green" ;
+    cap:hasObjectLabel  "toy_block_02" ;
+    cap:hasPoseFrame    "world/object_toy_block_02" ;
+    cap:hasTaskRole     g15:collectableObjectRole ;
+    cap:hasAffordance   g15:graspingAffordance .
 
 g15:block03
     a cap:ToyBlock ;
     rdfs:label "toy block 03"@en ;
-    rdfs:comment "The red toy block collected into the basket in the selected Group 15 task."@en ;
-    cap:hasColor "red" ;
-    cap:hasObjectLabel "toy_block_03" ;
-    cap:hasTaskRole cap:CollectableObject .
+    rdfs:comment
+        "A red toy block to be collected into the basket. It is a direct grasp target in the Group 15 task."@en ;
+    skos:definition
+        "A small red-coloured cubic toy block. The robot grasps its top face, lifts it, and deposits it into the basket."@en ;
+    cap:hasColor        "red" ;
+    cap:hasObjectLabel  "toy_block_03" ;
+    cap:hasPoseFrame    "world/object_toy_block_03" ;
+    cap:hasTaskRole     g15:collectableObjectRole ;
+    cap:hasAffordance   g15:graspingAffordance .
 
 g15:basket01
     a cap:Basket ;
     rdfs:label "basket 01"@en ;
-    rdfs:comment "The white basket that receives toy blocks in the selected Group 15 task."@en ;
-    cap:hasColor "white" ;
-    cap:hasObjectLabel "basket" ;
-    cap:hasTaskRole cap:ContainerTarget .
+    rdfs:comment
+        "The white basket that receives toy blocks. It is the container target of the Group 15 task and is not itself grasped by the robot."@en ;
+    skos:definition
+        "A white woven basket that serves as the deposit destination for all toy blocks. The robot does not grasp the basket; it uses the basket's interior as the target region for block deposition."@en ;
+    skos:scopeNote
+        "Basket is modelled with ContainmentAffordance only, not GraspingAffordance, because its task role is to receive objects rather than to be grasped. It is therefore not inferred as cap:GraspableObject."@en ;
+    cap:hasColor        "white" ;
+    cap:hasObjectLabel  "basket" ;
+    cap:hasPoseFrame    "world/object_basket" ;
+    cap:hasTaskRole     g15:containerTargetRole ;
+    cap:hasAffordance   g15:containmentAffordance .
