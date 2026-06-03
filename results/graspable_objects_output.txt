@@ -1,0 +1,7 @@
+cap:group15/block01	toy block 01@en	cap:group15/collectableObjectRole	
+cap:group15/block02	toy block 02@en	cap:group15/collectableObjectRole	
+cap:group15/block03	toy block 03@en	cap:group15/collectableObjectRole	
+cap:group15/blueCup01	blue cup 01@en	cap:group15/targetObjectRole	
+cap:group15/fork01	fork 01@en	cap:group15/targetObjectRole	
+cap:group15/knife01	knife 01@en	cap:group15/targetObjectRole	
+cap:group15/pinkCup01	pink cup 01@en	cap:group15/targetObjectRole
