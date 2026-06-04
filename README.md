@@ -97,83 +97,101 @@ This namespace contains the shared vocabulary provided by the course, including:
 @prefix g15: <https://hcis.io/ontology/aicapstone/2026/group15/> .
 ```
 
-This namespace is used for:
+This namespace contains ontology elements created by Group 15, including:
 
-* Object instances
-* Group-specific individuals
-* Additional task definitions
-* Local ontology extensions
+* Environment object instances
+  * blueCup01
+  * pinkCup01
+  * knife01
+  * fork01
+  * plate01
+  * block01
+  * block02
+  * block03
+  * basket01
+* Group-specific role individuals
+* Group-specific affordance individuals
+* Ontology metadata describing Group 15
+
+The ontology imports the course ontology through:
+
+owl:imports <https://hcis.io/ontology/aicapstone/2026> .
+
+allowing Group 15 to reuse the shared course vocabulary while maintaining a separate namespace for project-specific entities.
 
 ---
 
 ## 6. Instructions for Running the Query
 
-### Using Apache Jena
+### Protege Workflow
 
-Run the following command:
+1. Open `ontology/group-ontology.ttl` in Protege.
+2. Start the HermiT reasoner.
+3. Verify that graspable objects are inferred as `cap:GraspableObject`.
+4. Export the inferred ontology as `ontology/inferred-results.ttl`.
+5. Execute the SPARQL query in:
 
-```bash
-arq \
---data ontology/inferred-results.ttl \
---query queries/graspable_objects.rq
+```text
+queries/graspable_objects.rq
 ```
 
-### Using Protege
+The query returns all inferred instances of `cap:GraspableObject`.
 
-1. Open `ontology/group-ontology.ttl`
-2. Run an OWL reasoner (e.g., HermiT)
-3. Export the inferred ontology
-4. Execute the SPARQL query in the SPARQL tab
+### Reproducing the Provided Results
+
+The repository already contains:
+
+```text
+ontology/inferred-results.ttl
+results/graspable_objects_output.txt
+```
+
+which correspond to the reasoning and query results used in this submission.
 
 ---
 
 ## 7. Expected Query Output
 
-The query retrieves inferred instances of `cap:GraspableObject`.
+The query retrieves all objects that are inferred to be instances of `cap:GraspableObject`.
 
-Expected results:
+Example output:
 
 ```text
-blueCup01
-pinkCup01
-knife01
-fork01
-block01
-block02
-block03
+cap:group15/block01     toy block 01@en     cap:group15/collectableObjectRole
+cap:group15/block02     toy block 02@en     cap:group15/collectableObjectRole
+cap:group15/block03     toy block 03@en     cap:group15/collectableObjectRole
+cap:group15/blueCup01   blue cup 01@en      cap:group15/targetObjectRole
+cap:group15/fork01      fork 01@en          cap:group15/targetObjectRole
+cap:group15/knife01     knife 01@en         cap:group15/targetObjectRole
+cap:group15/pinkCup01   pink cup 01@en      cap:group15/targetObjectRole
 ```
 
-The exact output format may vary depending on the SPARQL engine.
+These objects are inferred to be graspable because they satisfy the ontology definition of `cap:GraspableObject`.
 
 ---
 
 ## 8. What Is Inferred (Not Merely Asserted)
 
-The ontology does not manually assert:
+The ontology does not directly assert that objects are instances of `cap:GraspableObject`.
 
-```ttl
-blueCup01 rdf:type cap:GraspableObject .
-```
+Instead, objects are inferred as GraspableObject when they are physical objects that possess a GraspingAffordance.
 
-Instead, graspability is inferred through the OWL definition:
+Using this reasoning rule, the ontology automatically classifies:
 
-```text
-GraspableObject ≡
-PhysicalObject
-⊓ ∃ hasAffordance.GraspingAffordance
-```
+- block01
+- block02
+- block03
+- blueCup01
+- pinkCup01
+- fork01
+- knife01
 
-Objects that possess a GraspingAffordance are automatically classified as GraspableObject by the reasoner.
+The following objects are not inferred as graspable:
 
-Examples of inferred classifications:
+- plate01
+- basket01
 
-* blueCup01
-* pinkCup01
-* knife01
-* fork01
-* block01
-* block02
-* block03
+because they do not satisfy the graspability definition in the ontology.
 
 ---
 
