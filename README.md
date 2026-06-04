@@ -213,7 +213,6 @@ This file contains both asserted facts and inferred triples generated during rea
 
 ## 10. Repository Resources
 
-### 10. Repository Resources
 
 | Resource | Location |
 | :--- | :--- |
@@ -221,8 +220,7 @@ This file contains both asserted facts and inferred triples generated during rea
 | **Inferred Ontology** | [`ontology/inferred-results.ttl`](./ontology/inferred-results.ttl) |
 | **Imported Course Ontology** | [`ontology/imports/course-affordance.ttl`](./ontology/imports/course-affordance.ttl) |
 | **SPARQL Query** | [`queries/graspable_objects.rq`](./queries/graspable_objects.rq) |
-| **Query Result Output** | [`results/graspable_objects_output.txt`](./results/results/graspable_objects_output.txt) |
-| **Source Code** | [`src/`](./src/) |
+| **Query Result Output** | [`results/graspable_objects_output.txt`](./results/graspable_objects_output.txt) |
 | **Report** | [`report.md`](./report.md) |
 
 ---
